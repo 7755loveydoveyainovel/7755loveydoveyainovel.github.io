@@ -1,4 +1,4 @@
-## Hi there 👋
+## 這裡是放在卿卿我我ai平台與ai共創的小說劇情分享 👋
 
 <!--
 **7755loveydoveyainovel/7755loveydoveyainovel** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
