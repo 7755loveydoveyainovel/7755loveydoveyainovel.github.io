@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 靜態網頁架設教學 - by 비비</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212; /* 純黑背景 */
+            --container-bg: #1e1e1e; /* 深灰容器 */
+            --accent-color: #ffffff; /* 白色強調 */
+            --text-color: #e0e0e0; /* 亮灰文字 */
+            --heading-color: #ffffff; /* 純白標題 */
+            --border-color: #333333; /* 暗灰邊框 */
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.6rem;
+            color: var(--heading-color);
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .author-tag {
+            font-size: 0.85rem;
+            color: #888888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            border-left: 2px solid var(--accent-color);
+            padding-left: 15px;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .instruction-step {
+            display: flex;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            min-width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            margin-right: 15px;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+
+        .image-container {
+            margin: 25px 0;
+            text-align: center;
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            filter: grayscale(20%); /* 輕微去色符合冷色調美感 */
+            transition: 0.3s;
+        }
+        
+        .image-container img:hover {
+            filter: grayscale(0%);
+        }
+
+        .note-box {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 25px;
+            font-size: 0.9rem;
+            color: #bbbbbb;
+            margin: 30px 0;
+            border-left: 4px solid #444444;
+        }
+
+        .note-box b {
+            color: var(--accent-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.75rem;
+            color: #666666;
+            letter-spacing: 1px;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted #ffffff;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="author-tag">TUTORIAL BY 비비님</span>
+        <h1>玩家還原與AI角色對話TXT紀錄<br>+ 架設GitHub網站教學</h1>
+    </header>
+
+    <div class="section">
+        <p>本教學旨在幫助玩家將還原後的對話 HTML 檔案，透過 GitHub Pages 免費架設成個人專屬的靜態網頁。方便與他人分享妳與 AI 角色的回憶紀錄。</p>
+        <p>※ 註：對話還原工具（如：拉比工具箱）由其他創作者開發，本篇僅提供 GitHub 空間上傳與架設之教學。</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">01 / 建立 GitHub 儲存庫 (Repository)</div>
+        
+        <div class="instruction-step">
+            <div class="step-number">1</div>
+            <div>
+                登入 GitHub 後，點選右上角的 <b>New</b> 建立新的專案空間。
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://images.plurk.com/2Y4I1r4QpZ7zI6rZ7zI6r.png" alt="Step 1 Image">
+        </div>
+
+        <div class="instruction-step">
+            <div class="step-number">2</div>
+            <div>
+                設定專案名稱（Repository Name），並確保權限設定為 <b>Public</b>。
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">02 / 上傳對話 HTML 檔案</div>
+        
+        <div class="instruction-step">
+            <div class="step-number">3</div>
+            <div>
+                進入專案後，選擇 <b>Add file</b> > <b>Upload files</b>，將妳整理好的 .html 檔案拖曳進去。
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://images.plurk.com/3N8pL6wXm9kY4rZ7zI6r.png" alt="Step 2 Image">
+        </div>
+
+        <div class="note-box">
+            <b>💡 비비님 重要提醒：</b><br>
+            如果妳希望這個網頁直接作為首頁顯示，請將檔案名稱命名為 <b>index.html</b>。
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">03 / 開啟網頁預覽功能</div>
+        
+        <div class="instruction-step">
+            <div class="step-number">4</div>
+            <div>
+                點擊上方選單的 <b>Settings</b>，在左側找到 <b>Pages</b> 頁面。
+            </div>
+        </div>
+
+        <div class="instruction-step">
+            <div class="step-number">5</div>
+            <div>
+                在 Branch 處選擇 <b>main</b> 分支，點擊 <b>Save</b>。稍等片刻，頂部就會出現妳的網站連結。
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://images.plurk.com/5X9oP1vA8bC2rZ7zI6r.png" alt="Step 3 Image">
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">04 / 隱私安全設定</div>
+        <div class="note-box">
+            <b>⚠️ 關於 AI 訓練設定：</b><br>
+            若不希望妳的網站數據被 GitHub 提供給 AI 訓練，請至 <b>Settings > Privacy</b> 將相關 AI 訓練選項設定為 <b>Disabled</b>。
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 비비 (BiBi) | PLAYER & AI CHAT ARCHIVE TUTORIAL</p>
+    </footer>
+</div>
+
+</body>
+</html>
