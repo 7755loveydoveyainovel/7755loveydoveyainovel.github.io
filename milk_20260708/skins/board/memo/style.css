@@ -1,0 +1,438 @@
+/**
+ * skins/board/memo/style.css — 핀터레스트 메모 게시판
+ *
+ * 구성:
+ *  - 작성 영역 (관리자만): [+ 새 메모] 버튼 → 클릭 시 펼침
+ *  - masonry 그리드 (CSS columns)
+ *  - 4 카드 타입: quote / image / video / link
+ */
+
+.memo-wrap {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.memo-flash {
+  padding: 10px 14px;
+  margin: 12px 0 0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.memo-flash.error {
+  background: color-mix(in srgb, #c33 10%, transparent);
+  border: 1px solid color-mix(in srgb, #c33 35%, transparent);
+  color: #c33;
+}
+.memo-flash.success {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+/* ─── 작성 폼 (액션바의 [+ 새 메모] 가 토글, 평소엔 hidden) ─── */
+.memo-new {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 0 0 18px;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 5%, transparent);
+}
+/* 액션바 버튼이 active 일 때 살짝 강조 */
+.list-actions .btn-new.active {
+  background: color-mix(in srgb, var(--accent) 85%, #000);
+}
+
+/* 타입 알약 */
+.memo-types {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--hair-soft);
+}
+.memo-type-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: var(--hair-soft);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all .15s;
+}
+.memo-type-pill:hover { background: var(--hair); }
+.memo-type-pill input { display: none; }
+.memo-type-pill.active {
+  background: var(--accent);
+  color: #fff;
+}
+.memo-type-pill i { font-size: 10px; }
+
+/* 입력 필드 */
+.memo-fields { display: flex; flex-direction: column; gap: 10px; }
+.memo-fields[hidden] { display: none; }
+
+.memo-fields input[type=text],
+.memo-fields textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  background: var(--bg);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s;
+}
+.memo-fields textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.65;
+}
+.memo-fields input[type=text]:focus,
+.memo-fields textarea:focus {
+  border-color: var(--accent);
+}
+.memo-fields input::placeholder,
+.memo-fields textarea::placeholder {
+  color: var(--ink-mute);
+}
+
+/* 이미지 URL + 업로드 버튼 한 줄 */
+.memo-img-row {
+  display: flex;
+  gap: 6px;
+}
+.memo-img-row input { flex: 1; }
+.memo-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 14px;
+  background: var(--hair-soft);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.memo-upload-btn:hover {
+  background: var(--hair);
+  color: var(--ink);
+}
+.memo-upload-btn.has-file {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.memo-upload-btn i { font-size: 11px; }
+
+/* 등록/취소 */
+.memo-new-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair-soft);
+}
+.memo-new-cancel {
+  padding: 7px 16px;
+  background: none;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+}
+.memo-new-cancel:hover {
+  background: var(--hair-soft);
+  color: var(--ink);
+}
+.memo-new-submit {
+  margin-left: auto;
+  padding: 7px 22px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+}
+.memo-new-submit:hover { background: color-mix(in srgb, var(--accent) 85%, #000); }
+.memo-new-submit:active { transform: scale(.97); }
+
+/* ─── 빈 상태 ─── */
+.memo-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-mute);
+  font-size: 13px;
+}
+
+/* ─── 카드 그리드 (CSS columns masonry) ─── */
+.memo-grid {
+  column-count: 3;
+  column-gap: 16px;
+}
+@media (max-width: 900px) { .memo-grid { column-count: 2; } }
+@media (max-width: 500px) { .memo-grid { column-count: 1; } }
+
+.memo-card {
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 16px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .15s, box-shadow .15s;
+}
+.memo-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+/* 삭제 — 메타 행에 인라인 (게스트북 entry-action-btn 재사용) */
+.memo-card-del {
+  margin: 0;
+}
+
+/* ─── 카드 — quote ─── */
+.memo-card-quote {
+  padding: 22px 20px 16px;
+}
+.memo-card-quote .quote-text {
+  font-size: 14px;
+  line-height: 1.85;
+  font-style: italic;
+  color: var(--ink);
+  word-break: break-word;
+}
+.memo-card-quote .quote-source {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-style: normal;
+  text-align: right;
+}
+
+/* ─── 카드 — image ─── */
+.memo-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.memo-card-caption {
+  padding: 10px 14px 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ─── 카드 — video ─── */
+.memo-card-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  background: #000;
+}
+.memo-card-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ─── 카드 — link ─── */
+.memo-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.memo-card-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.memo-card-link .link-body {
+  padding: 12px 14px 4px;
+}
+.memo-card-link .link-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+.memo-card-link .link-desc {
+  font-size: 11px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.memo-card-link .link-host {
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ─── 카드 메타 (날짜 + 수정/삭제 버튼) ─── */
+.memo-card-meta {
+  padding: 8px 16px 12px;
+  font-size: 10px;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.memo-card-meta time { flex: 1; }
+.memo-card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.memo-card-actions .memo-card-del {
+  display: inline-flex;
+  margin: 0;
+}
+
+.memo-card > .memo-card-image + .memo-card-meta,
+.memo-card > .memo-card-video + .memo-card-meta,
+.memo-card > .memo-card-link + .memo-card-meta,
+.memo-card > .memo-card-embed + .memo-card-meta {
+  padding-top: 10px;
+}
+
+/* ─── 수정 모드 banner ─── */
+.memo-edit-banner {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--accent);
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.memo-edit-banner i { font-size: 11px; }
+
+/* ─── 현재 이미지 미리보기 (수정 시) ─── */
+.memo-current-thumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: var(--bg);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+}
+.memo-current-thumb img {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.memo-current-thumb span {
+  font-size: 11px;
+  color: var(--ink-mute);
+  flex: 1;
+}
+
+/* ─── 카드 — embed (트위터/인스타) ─── */
+.memo-card-embed {
+  padding: 12px;
+  background: var(--paper);
+}
+.memo-card-embed blockquote.twitter-tweet,
+.memo-card-embed blockquote.instagram-media {
+  margin: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+.memo-card--link .memo-card-embed iframe {
+  max-width: 100% !important;
+}
+
+/* 트위터 카드 키 제한 — masonry column balance 유지 */
+.memo-card--link .memo-card-embed.memo-tweet {
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 0;
+}
+/* 트윗이 너무 길어도 카드 안에서 스크롤 */
+.memo-card--link .memo-card-embed.memo-tweet::-webkit-scrollbar {
+  width: 6px;
+}
+.memo-card--link .memo-card-embed.memo-tweet::-webkit-scrollbar-thumb {
+  background: var(--hair);
+  border-radius: 3px;
+}
+
+/* 트윗 로딩 / fallback */
+.memo-tweet-loading {
+  padding: 24px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+.memo-tweet-fallback {
+  display: block;
+  padding: 24px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px dashed color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 8px;
+}
+.memo-tweet-fallback:hover {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+/* 취소 a 링크도 button 처럼 (수정 모드에서) */
+a.memo-new-cancel {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* 일반 카테고리 칩 + select */
+.memo-card-cat-row { padding: 8px 10px 0; }
+.memo-cat-row {
+  margin: 8px 0;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+.memo-cat-row select {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  background: var(--paper);
+  font-size: 13px;
+}

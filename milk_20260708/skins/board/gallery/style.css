@@ -1,0 +1,146 @@
+/* ═══════════════════════════════════════════════════════════════
+ *  skins/board/gallery/style.css
+ *  썸네일 갤러리 스킨 — 일러·창작·사진 게시판용
+ *
+ *  list 스킨과 동일하게 core.css 의 DEFAULT BOARD UI 를 물려받고,
+ *  여기서는 갤러리만의 그리드 / 카드 스타일만 정의.
+ *  글 상세 (post-view) 와 댓글은 inc/post-view.php partial 사용 → core CSS.
+ * ═══════════════════════════════════════════════════════════════ */
+
+/* ─── 그리드 ─── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 24px;
+}
+/* 비어 있을 때 — 메시지를 그리드 전체에 걸쳐 중앙 정렬 */
+.gallery-grid .empty-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--ink-mute);
+  font-size: 13px;
+}
+
+/* ─── 카드 ─── */
+.g-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: var(--paper-2);
+  border: 1px solid var(--hair-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .15s ease, border-color .15s ease;
+}
+.g-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* ─── 썸네일 (정사각형) ─── */
+.g-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--hair-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.g-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.g-initial {
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--ink-mute);
+  line-height: 1;
+  user-select: none;
+}
+
+/* ─── 카드 텍스트 ─── */
+.g-info {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.g-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.g-subtitle {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.g-meta {
+  font-size: 10px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ─── 모바일 ─── */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 14px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .g-info { padding: 10px 12px 12px; }
+  .g-title { font-size: 13px; }
+  .g-initial { font-size: 48px; }
+}
+
+/* ─── 갤러리 view: 제목 → 이미지 → 본문 순서로 재배치 ─── */
+.gallery-view .post-view {
+  display: flex;
+  flex-direction: column;
+}
+.gallery-view .post-view .post-head    { order: 1; }
+.gallery-view .post-view .post-images  { order: 2; margin-top: 24px; }
+.gallery-view .post-view .post-body    { order: 3; margin-top: 24px; }
+
+/* head 의 하단 보더 제거 (이미지가 자연스러운 구분선 역할) */
+.gallery-view .post-view .post-head {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* 비공개 갤러리 카드 — 이미지 대신 자물쇠 */
+.g-thumb .g-lock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+  color: var(--ink-mute);
+  background: color-mix(in srgb, var(--ink) 6%, var(--paper-2));
+}

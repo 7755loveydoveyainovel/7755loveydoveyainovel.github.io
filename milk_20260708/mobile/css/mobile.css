@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════════════════
+ *  mobile/css/mobile.css
+ *  모바일 전용 오버라이드 — max-width: 768px 에서만 적용
+ *
+ *  핵심 동작:
+ *   - PC (>= 769px): 모바일 partial 모두 숨김 (사이드바만 보임)
+ *   - 모바일 (<= 768px): 사이드바 숨김, topbar + tabbar + drawer 활성
+ * ═══════════════════════════════════════════════════════════════ */
+
+/* ─── PC: 모바일 partial 강제 숨김 ─── */
+@media (min-width: 769px) {
+  .m-topbar,
+  .m-tabbar,
+  .m-drawer { display: none !important; }
+}
+
+/* ─── 모바일 (<= 768px) ─── */
+@media (max-width: 768px) {
+
+  /* 모바일에선 스크롤바 완전히 숨김 — 탭바가 스크롤바와 겹치지 않게 */
+  ::-webkit-scrollbar { display: none; }
+  html { scrollbar-width: none; }
+
+  /* 사이드바 숨김, 본문은 풀 폭 */
+  .sidebar { display: none !important; }
+  .layout {
+    grid-template-columns: 1fr !important;
+    min-width: 0;
+  }
+  .layout > .content {
+    min-width: 0;     /* grid item 기본 min-width(auto) 가 콘텐츠 폭에 맞춰 커지는 것 방지 */
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* 본문 하단 여백 (탭바 아래 가려지지 않도록) */
+  .content {
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+
+  /* breadcrumb 가 topbar 아래에 sticky */
+  .crumb { top: 48px; }
+
+  /* ═══════════════ 상단 바 ═══════════════ */
+  .m-topbar {
+    background: color-mix(in srgb, var(--paper) 80%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--hair);
+    height: 48px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .m-brand {
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+  .m-brand .name {
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -.015em;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .m-brand .tag {
+    font-size: 11px;
+    color: var(--accent-2);
+    font-weight: 500;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ═══════════════ 하단 탭바 ═══════════════ */
+  .m-tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid var(--hair);
+    display: flex;
+    z-index: 50;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, .04);
+  }
+  .m-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--ink-mute);
+    font-size: 9px;
+    font-weight: 600;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    position: relative;
+    padding: 6px 4px;
+    transition: color .15s;
+    min-width: 0;
+  }
+  .m-tab .ic {
+    font-family: 'Material Symbols Rounded';
+    font-size: 22px;
+  }
+  .m-tab .lbl {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 9px;
+    letter-spacing: -.01em;
+  }
+  .m-tab.active { color: var(--accent); }
+  .m-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 0 0 2px 2px;
+  }
+  .m-tab-empty {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /* ═══════════════ 드로어 (풀스크린) ═══════════════ */
+  .m-drawer {
+    position: fixed;
+    inset: 0;
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .m-drawer.open {
+    transform: translateY(0);
+  }
+
+  .m-drawer-head {
+    padding: 22px 22px 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--hair-soft);
+    flex-shrink: 0;
+  }
+  .m-drawer-head .ti {
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -.025em;
+    color: var(--ink);
+  }
+  .m-drawer-head .close {
+    font-family: 'Material Symbols Rounded';
+    font-size: 24px;
+    color: var(--ink-mute);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  .m-drawer-head .close:hover { background: var(--hair-soft); }
+
+  .m-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 30px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .m-drawer-body::-webkit-scrollbar { display: none; }
+
+  .m-section {
+    padding: 18px 22px 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+
+  .m-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 22px;
+    font-size: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background .15s;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+  }
+  .m-item:active { background: var(--hair-soft); }
+  .m-item.active {
+    color: var(--accent);
+    font-weight: 700;
+    background: var(--accent-soft);
+  }
+  .m-item .ic {
+    font-family: 'Material Symbols Rounded';
+    font-size: 20px;
+    color: var(--ink-mute);
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .m-item.active .ic { color: var(--accent); }
+  .m-item .pin {
+    margin-left: auto;
+    font-family: 'Material Symbols Rounded';
+    font-size: 14px;
+    color: var(--accent);
+    opacity: .6;
+  }
+
+  .m-login-pop {
+    padding: 14px 22px;
+    background: var(--hair-soft);
+  }
+  .m-login-pop form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .m-login-pop input {
+    background: var(--paper);
+    border: 1px solid var(--hair);
+    border-radius: 7px;
+    padding: 10px 12px;
+    font-size: 13px;
+    outline: none;
+    font-family: inherit;
+    color: var(--ink);
+  }
+  .m-login-pop input:focus { border-color: var(--accent); }
+  .m-login-pop button {
+    background: var(--accent);
+    color: var(--paper);
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .m-divider {
+    border: none;
+    border-top: 1px dashed var(--hair);
+    margin: 14px 24px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  /* DRAWER 섹션 필터 */
+  .m-drawer .m-group {
+    transition: opacity .15s ease;
+  }
+  .m-drawer .m-group--hidden {
+    display: none;
+  }
+
+  /* 섹션 탭 (m-tab-section) — 일반 탭과 같은 룩 */
+  .m-tab-section {
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 더보기 → 섹션 선택 view */
+  .m-drawer-sections {
+    padding: 8px 0;
+  }
+  .m-section-pick {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .m-section-pick.active {
+    color: var(--accent);
+    font-weight: 700;
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .m-section-pick.active .ic { color: var(--accent); }
+  .m-section-pick .pin {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--accent);
+  }
+}
