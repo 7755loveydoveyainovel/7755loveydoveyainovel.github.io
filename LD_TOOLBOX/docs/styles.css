@@ -1,0 +1,509 @@
+/* 移除強制全屏的設定 */
+body {
+  background-color: #0f172a;
+  color: #f8fafc;
+  /* 移除原本這裡可能存在的 height: 100vh 或 overflow: hidden */
+  min-height: auto; 
+  padding: 24px;
+}
+
+/* 確保網格佈局隨內容延伸 */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 32px;
+  margin-top: 24px;
+  /* 關鍵：高度設定為 auto，這會讓它隨內部內容自然撐開 */
+  height: auto; 
+  min-height: auto;
+  align-items: start;
+}
+
+/* 確保左側控制面板不再被限制高度 */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* 關鍵：移除 max-height 和 overflow-y，讓它隨卡片自然排列 */
+  height: auto;
+  overflow: visible; 
+}
+
+/* 確保側邊容器正確 */
+.sidebar-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Card Container Styles */
+.card {
+  background-color: #1e293b; /* Slate-800 */
+  border: 1px solid #334155; /* Slate-700 */
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 16px;
+}
+
+/* Helper Utilities */
+.space-y-4 > * + * {
+  margin-top: 16px;
+}
+.mt-4 {
+  margin-top: 16px;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Dropzone Styles */
+.file-dropzone {
+  border: 2px dashed #475569; /* Slate-600 */
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-dropzone:hover {
+  border-color: #3b82f6; /* Blue-500 */
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Form Select Styling */
+.select-input {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #334155; /* Slate-700 */
+  border: 1px solid #475569; /* Slate-600 */
+  border-radius: 6px;
+  color: #f8fafc;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.select-input:focus {
+  border-color: #3b82f6;
+}
+
+.select-input option {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+/* Avatar Settings Layout */
+.block-label {
+  display: block;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #475569;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #334155;
+  flex-shrink: 0;
+}
+
+.btn-upload {
+  padding: 6px 16px;
+  background-color: #3b82f6; /* Blue-500 */
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  display: inline-block;
+}
+
+.btn-upload:hover {
+  background-color: #2563eb;
+}
+
+/* Slider width layout matching the screenshot */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.slider-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.range-slider {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #334155;
+  border-radius: 4px;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.range-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Download HTML Button */
+.btn-download {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-download:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.btn-download:disabled {
+  background-color: #334155;
+  color: #64748b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Preview Section Layout */
+.preview-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+.preview-window {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f172a;
+}
+
+.preview-title-bar {
+  background-color: #1e293b;
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+  display: flex;
+}
+
+.preview-content-area {
+  flex-grow: 1;
+  position: relative;
+  min-height: 600px;
+  background-color: #111827; /* Dark preview bg */
+}
+
+.preview-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  padding: 40px;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.preview-empty-state p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.preview-empty-state span {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  position: absolute;
+  inset: 0;
+}
+
+/* Image Crop Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.modal-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-close:hover {
+  color: #f8fafc;
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-tip {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.crop-container {
+  max-height: 350px;
+  width: 100%;
+  overflow: hidden;
+  background: #0f172a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crop-container img {
+  max-width: 100%;
+  max-height: 330px;
+  display: block;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #334155;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  background-color: #334155;
+  border: 1px solid #475569;
+  color: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+}
+
+.modal-footer .btn-primary {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 6px;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #2563eb;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.spinner-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 2px;
+}
+
+.spinner-subtext {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Cropper Circular Mask Customization */
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}
+.cropper-line, .cropper-point {
+  opacity: 0.6;
+}
+/* 讓整個頁面變成分割佈局 */
+body {
+    display: flex;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 刪除原本底部的 .sidebar 和 .preview-area 設定 */
+
+/* 確保網頁整體可以滑動 */
+body {
+    display: block; /* 恢復預設，不要用 flex */
+    height: auto;   /* 不要鎖死 100vh */
+    overflow: auto; /* 允許產生垂直拉桿 */
+}
+
+/* 確保網格佈局能隨內容撐開 */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 32px;
+    padding: 24px;
+    height: auto;   /* 關鍵：高度自動 */
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 確保左側控制面板不再被切斷 */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: auto;
+    overflow: visible; /* 讓內容自然延伸，不要獨立滾動 */
+}
