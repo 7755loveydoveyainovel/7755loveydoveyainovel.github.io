@@ -1,0 +1,13 @@
+{
+  "name": "lovey-dovey-chat-converter",
+  "version": "1.0.0",
+  "description": "Convert Lovey-Dovey chat logs (.txt) to beautiful HTML logs",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
